@@ -25,7 +25,7 @@
                                 <th>Classe</th>
                             </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="coursList">
                             <c:forEach items="${coursList}" var="cours">
                                 <tr>
                                     <td>${cours.id}</td>
@@ -36,6 +36,14 @@
                             </c:forEach>
                             </tbody>
                         </table>
+                        <nav>
+                            <ul id="pagination" class="pagination justify-content-center">
+                                <li class="page-item"><a class="page-link" href="#" onclick="prevPage()">Précédent</a></li>
+                                <!-- Les boutons des pages seront ajoutés ici par JavaScript -->
+                                <li class="page-item"><a class="page-link" href="#" onclick="nextPage()">Suivant</a></li>
+                            </ul>
+                        </nav>
+
                     </div>
                 </div>
             </div>
@@ -64,3 +72,65 @@
         </div>
     </div>
 </div>
+<script>
+    const coursList = Array.from(document.querySelectorAll("#coursList tr"));
+    const pageSize = 5; // Nombre d'éléments par page
+    let currentPage = 1;
+
+    function showPage(page) {
+        const start = (page - 1) * pageSize;
+        const end = start + pageSize;
+        coursList.forEach((item, index) => {
+            item.style.display = index >= start && index < end ? '' : 'none';
+        });
+
+        document.querySelectorAll("#pagination .page-item").forEach(button => {
+            button.classList.remove("active");
+        });
+        document.querySelector(`#pagination [data-page='${page}']`).classList.add("active");
+    }
+
+    function setupPagination() {
+        const totalPages = Math.ceil(coursList.length / pageSize);
+        const paginationContainer = document.querySelector("#pagination");
+
+        for (let i = 1; i <= totalPages; i++) {
+            const listItem = document.createElement("li");
+            listItem.classList.add("page-item");
+            listItem.setAttribute("data-page", i);
+
+            const button = document.createElement("a");
+            button.classList.add("page-link");
+            button.textContent = i;
+            button.href = "#";
+            button.onclick = (e) => {
+                e.preventDefault();
+                currentPage = i;
+                showPage(currentPage);
+            };
+
+            listItem.appendChild(button);
+            paginationContainer.insertBefore(listItem, paginationContainer.children[paginationContainer.children.length - 1]);
+        }
+        showPage(currentPage);
+    }
+
+    function prevPage() {
+        if (currentPage > 1) {
+            currentPage--;
+            showPage(currentPage);
+        }
+    }
+
+    function nextPage() {
+        const totalPages = Math.ceil(coursList.length / pageSize);
+        if (currentPage < totalPages) {
+            currentPage++;
+            showPage(currentPage);
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        setupPagination();
+    });
+</script>
