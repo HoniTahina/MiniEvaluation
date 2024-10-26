@@ -13,9 +13,9 @@
     <div class="container mt-5">
         <div class="row">
             <div class="col-sm-6">
-                <div class="card">
+                <div class="card border border-info shadow-0 mb-3" >
+                    <div class="card-header">Liste des Cours</div>
                     <div class="card-body">
-                        <h5 class="card-title">Liste des Cours</h5>
                         <table class="table table-striped table-hover">
                             <thead>
                             <tr>
@@ -40,9 +40,9 @@
                 </div>
             </div>
             <div class="col-sm-6">
-                <div class="card">
+                <div class="card border border-info shadow-0 mb-3">
+                    <div class="card-header">Ajout d'un cours</div>
                     <div class="card-body">
-                        <h5 class="card-title">Ajout d'un cours</h5>
                         <form action="cours" method="post">
                             <div class="mb-3">
                                 <label for="matiere" class="form-label">Matière</label>
